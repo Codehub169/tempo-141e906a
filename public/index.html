@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Budget Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><span class="material-icons icon-header">account_balance_wallet</span> Personal Budget Tracker</h1>
+            <nav id="main-nav">
+                <a href="#dashboard" id="nav-dashboard" class="nav-link active"><span class="material-icons">dashboard</span> Dashboard</a>
+                <a href="#transactions" id="nav-transactions" class="nav-link"><span class="material-icons">receipt_long</span> Transactions</a>
+                <a href="#goals" id="nav-goals" class="nav-link"><span class="material-icons">savings</span> Savings Goals</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" class="container">
+        <!-- Dashboard Section (Default Visible) -->
+        <section id="dashboard-section" class="view-section active-section">
+            <h2><span class="material-icons">insights</span> Dashboard Overview</h2>
+            <div class="dashboard-summary">
+                <div class="summary-card income-card">
+                    <div class="card-icon"><span class="material-icons">arrow_circle_up</span></div>
+                    <div class="card-content">
+                        <h3>Total Income</h3>
+                        <p id="dashboard-total-income">$0.00</p>
+                    </div>
+                </div>
+                <div class="summary-card expense-card">
+                    <div class="card-icon"><span class="material-icons">arrow_circle_down</span></div>
+                    <div class="card-content">
+                        <h3>Total Expenses</h3>
+                        <p id="dashboard-total-expenses">$0.00</p>
+                    </div>
+                </div>
+                <div class="summary-card balance-card">
+                    <div class="card-icon"><span class="material-icons">account_balance</span></div>
+                    <div class="card-content">
+                        <h3>Net Balance</h3>
+                        <p id="dashboard-net-balance">$0.00</p>
+                    </div>
+                </div>
+            </div>
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3><span class="material-icons">pie_chart</span> Spending by Category</h3>
+                    <canvas id="spending-by-category-chart"></canvas>
+                    <p id="no-spending-data" class="empty-data-message" style="display: none;">No spending data available to display chart.</p>
+                </div>
+                <!-- Add more chart containers if needed, e.g., for income/expense trends -->
+            </div>
+        </section>
+
+        <!-- Transactions Section (Initially Hidden) -->
+        <section id="transactions-section" class="view-section hidden-section">
+            <h2><span class="material-icons">playlist_add_check</span> Manage Transactions</h2>
+            <div class="content-box transaction-form-container">
+                <h3>Add New Transaction</h3>
+                <form id="add-transaction-form" class="styled-form">
+                    <div class="form-group">
+                        <label for="transaction-type"><span class="material-icons">swap_horiz</span> Type:</label>
+                        <select id="transaction-type" name="type" required>
+                            <option value="" disabled selected>Select type...</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-category"><span class="material-icons">category</span> Category:</label>
+                        <input type="text" id="transaction-category" name="category" required placeholder="e.g., Salary, Groceries">
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-amount"><span class="material-icons">monetization_on</span> Amount:</label>
+                        <input type="number" id="transaction-amount" name="amount" required step="0.01" min="0.01" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-date"><span class="material-icons">calendar_today</span> Date:</label>
+                        <input type="date" id="transaction-date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-description"><span class="material-icons">description</span> Description (Optional):</label>
+                        <textarea id="transaction-description" name="description" placeholder="e.g., Monthly salary check"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><span class="material-icons">add_circle_outline</span> Add Transaction</button>
+                </form>
+            </div>
+            <div class="content-box transaction-history-container">
+                <h3><span class="material-icons">history</span> Transaction History</h3>
+                <div id="transaction-filters">
+                    <label for="filter-transaction-type">Filter by type:</label>
+                    <select id="filter-transaction-type">
+                        <option value="all">All</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+                <div class="table-responsive">
+                    <table id="transaction-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaction-table-body">
+                            <!-- JS will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+                <p id="no-transactions-message" class="empty-data-message" style="display: none;">No transactions recorded yet. Add one above!</p>
+                <!-- Pagination might be added here by app.js -->
+            </div>
+        </section>
+
+        <!-- Savings Goals Section (Initially Hidden) -->
+        <section id="goals-section" class="view-section hidden-section">
+            <h2><span class="material-icons">flag</span> Manage Savings Goals</h2>
+            <div class="content-box goal-form-container">
+                <h3>Add New Savings Goal</h3>
+                <form id="add-goal-form" class="styled-form">
+                    <div class="form-group">
+                        <label for="goal-name"><span class="material-icons">label</span> Goal Name:</label>
+                        <input type="text" id="goal-name" name="name" required placeholder="e.g., Vacation Fund">
+                    </div>
+                    <div class="form-group">
+                        <label for="goal-target-amount"><span class="material-icons">paid</span> Target Amount:</label>
+                        <input type="number" id="goal-target-amount" name="target_amount" required step="0.01" min="0.01" placeholder="1000.00">
+                    </div>
+                     <div class="form-group">
+                        <label for="goal-current-amount"><span class="material-icons">account_balance_wallet</span> Current Amount (Optional):</label>
+                        <input type="number" id="goal-current-amount" name="current_amount" step="0.01" min="0" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="goal-deadline"><span class="material-icons">event</span> Deadline:</label>
+                        <input type="date" id="goal-deadline" name="deadline" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><span class="material-icons">add_circle_outline</span> Add Goal</button>
+                </form>
+            </div>
+            <div class="content-box goals-list-container">
+                <h3><span class="material-icons">checklist</span> Your Goals</h3>
+                <div id="goals-list" class="goals-grid">
+                    <!-- JS will populate this with goal cards -->
+                </div>
+                <p id="no-goals-message" class="empty-data-message" style="display: none;">No savings goals defined yet. Add one above!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Personal Budget Tracker. Designed with <span class="material-icons" style="font-size: 1em; vertical-align: middle;">favorite</span>.</p>
+        </div>
+    </footer>
+
+    <!-- Generic Modal for Editing -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn" id="close-edit-modal-btn">&times;</span>
+            <h3 id="edit-modal-title">Edit Item</h3>
+            <form id="edit-modal-form" class="styled-form">
+                <!-- Form fields will be populated by JS based on context (transaction or goal) -->
+                <div id="edit-modal-fields"></div>
+                <button type="submit" class="btn btn-primary"><span class="material-icons">save</span> Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
