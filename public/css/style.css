@@ -1,10 +1,47 @@
+:root {
+  --primary-blue-start: #2196F3;
+  --primary-blue-end: #1976D2;
+  --primary-blue-solid: #1976D2; 
+  --primary-blue-accent: #2196F3;
+
+  --secondary-orange: #FF9800;
+  --secondary-orange-dark: #f57c00;
+
+  --danger-red: #F44336;
+  --danger-red-dark: #e53935;
+
+  --accent-blue-solid: #2196F3; /* Used for .btn-accent and .goal-card h3 */
+  --accent-blue-dark: #1e88e5; /* Hover for .btn-accent */
+
+  --text-light: #FFFFFF;
+  --text-dark: #333333;
+  --text-medium: #555555;
+
+  --bg-main: #F5F5F5;
+  --bg-content: #FFFFFF;
+  --bg-form: #f9f9f9;
+  --bg-form-border: #ddd;
+  --bg-table-even-row: #f9f9f9;
+  --bg-table-hover-row: #f1f1f1;
+  --bg-progress-bar-track: #e0e0e0;
+  --bg-modal-overlay: rgba(0, 0, 0, 0.5);
+
+  --shadow-color-light: rgba(0, 0, 0, 0.1);
+  --shadow-color-medium: rgba(0, 0, 0, 0.2);
+  --shadow-color-dark: rgba(0, 0, 0, 0.3);
+  --shadow-elevation-1: 0 1px 3px rgba(0,0,0,0.12);
+  --shadow-elevation-2: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow-elevation-3: 0 2px 5px rgba(0,0,0,0.1);
+  --shadow-focus-ring: rgba(33, 150, 243, 0.3); /* Based on primary blue start */
+}
+
 /* Global Styles */
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #F5F5F5;
-  color: #333333;
+  background-color: var(--bg-main);
+  color: var(--text-dark);
   line-height: 1.6;
 }
 
@@ -15,7 +52,7 @@ body {
 }
 
 a {
-  color: #4CAF50; /* Primary color */
+  color: var(--primary-blue-solid);
   text-decoration: none;
 }
 
@@ -37,10 +74,10 @@ img {
 
 /* Header */
 header {
-  background-color: #4CAF50; /* Primary color */
-  color: #FFFFFF;
+  background: linear-gradient(135deg, var(--primary-blue-start), var(--primary-blue-end));
+  color: var(--text-light);
   padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--shadow-color-light);
 }
 
 header .container {
@@ -62,19 +99,13 @@ header h1 .material-icons {
 }
 
 /* Navigation */
-#main-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+#main-nav {
   display: flex;
-}
-
-#main-nav li {
-  margin-left: 20px;
+  gap: 10px; /* Replaces margin-left on li */
 }
 
 #main-nav a {
-  color: #FFFFFF;
+  color: var(--text-light);
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -88,8 +119,10 @@ header h1 .material-icons {
 }
 
 #main-nav a:hover,
-#main-nav a.active-nav {
-  background-color: #FF9800; /* Secondary color */
+#main-nav a.active-nav,
+#main-nav a:focus {
+  background-color: var(--secondary-orange);
+  outline: none; /* Ensure focus is visible via background change */
 }
 
 /* Main Content Area */
@@ -98,38 +131,40 @@ header h1 .material-icons {
   padding-bottom: 40px;
 }
 
-.section {
+/* Corrected to match HTML class 'view-section' */
+.view-section {
   display: none; /* Hidden by default, shown by JS */
-  background-color: #FFFFFF;
+  background-color: var(--bg-content);
   padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: var(--shadow-elevation-2);
   margin-bottom: 30px;
 }
 
-.section.active {
+/* Corrected to match HTML class 'active-section' */
+.view-section.active-section {
   display: block;
 }
 
-.section h2 {
-  color: #4CAF50; /* Primary color */
+.view-section h2 {
+  color: var(--primary-blue-solid);
   margin-top: 0;
-  border-bottom: 2px solid #F5F5F5;
+  border-bottom: 2px solid var(--bg-main);
   padding-bottom: 10px;
   display: flex;
   align-items: center;
 }
 
-.section h2 .material-icons {
+.view-section h2 .material-icons {
   margin-right: 10px;
   font-size: 1.8em;
 }
 
 /* Cards */
 .card {
-  background-color: #FFFFFF;
+  background-color: var(--bg-content);
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-elevation-3);
   padding: 20px;
   margin-bottom: 20px;
 }
@@ -153,32 +188,33 @@ header h1 .material-icons {
   margin-right: 20px;
   padding: 15px;
   border-radius: 50%;
-  color: #FFFFFF;
+  color: var(--text-light);
 }
 
-#dashboard-summary .card:nth-child(1) .material-icons { background-color: #4CAF50; /* Green */ }
-#dashboard-summary .card:nth-child(2) .material-icons { background-color: #F44336; /* Red */ }
-#dashboard-summary .card:nth-child(3) .material-icons { background-color: #2196F3; /* Blue */ }
+/* Targeting specific cards by class or nth-child. Sticking to nth-child as per original for now, but class-based would be more robust. */
+#dashboard-summary .card:nth-child(1) .material-icons { background: linear-gradient(135deg, var(--primary-blue-start), var(--primary-blue-end)); }
+#dashboard-summary .card:nth-child(2) .material-icons { background-color: var(--danger-red); }
+#dashboard-summary .card:nth-child(3) .material-icons { background-color: var(--primary-blue-accent); }
 
 #dashboard-summary .card-content h3 {
   margin: 0 0 5px 0;
   font-size: 1.1rem;
-  color: #555;
+  color: var(--text-medium);
 }
 
 #dashboard-summary .card-content p {
   margin: 0;
   font-size: 1.8rem;
   font-weight: bold;
-  color: #333;
+  color: var(--text-dark);
 }
 
 /* Chart Container */
 #spending-chart-container {
   padding: 20px;
-  background-color: #FFFFFF;
+  background-color: var(--bg-content);
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: var(--shadow-elevation-2);
 }
 
 /* Styled Forms */
@@ -188,9 +224,9 @@ header h1 .material-icons {
   gap: 15px;
   margin-bottom: 30px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-form);
   border-radius: 8px;
-  border: 1px solid #eee;
+  border: 1px solid var(--bg-form-border);
 }
 
 .styled-form .form-group {
@@ -201,7 +237,7 @@ header h1 .material-icons {
 .styled-form label {
   margin-bottom: 5px;
   font-weight: bold;
-  color: #555;
+  color: var(--text-medium);
   display: flex;
   align-items: center;
 }
@@ -209,7 +245,7 @@ header h1 .material-icons {
 .styled-form label .material-icons {
   margin-right: 8px;
   font-size: 1.2em;
-  color: #FF9800; /* Secondary */
+  color: var(--secondary-orange);
 }
 
 .styled-form input[type="text"],
@@ -218,7 +254,7 @@ header h1 .material-icons {
 .styled-form select,
 .styled-form textarea {
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--bg-form-border);
   border-radius: 4px;
   font-size: 1rem;
   width: 100%;
@@ -228,9 +264,9 @@ header h1 .material-icons {
 .styled-form input:focus,
 .styled-form select:focus,
 .styled-form textarea:focus {
-  border-color: #4CAF50; /* Primary */
+  border-color: var(--primary-blue-start);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  box-shadow: 0 0 0 2px var(--shadow-focus-ring);
 }
 
 .styled-form textarea {
@@ -247,7 +283,7 @@ header h1 .material-icons {
   font-size: 1rem;
   font-weight: bold;
   text-transform: uppercase;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -258,39 +294,39 @@ header h1 .material-icons {
 }
 
 .btn-primary {
-  background-color: #4CAF50; /* Primary */
-  color: #FFFFFF;
+  background: linear-gradient(135deg, var(--primary-blue-start), var(--primary-blue-end));
+  color: var(--text-light);
 }
 .btn-primary:hover {
-  background-color: #45a049;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background: linear-gradient(135deg, var(--primary-blue-end), var(--primary-blue-start)); /* Slightly adjusted hover gradient */
+  box-shadow: 0 2px 4px var(--shadow-color-medium);
 }
 
 .btn-secondary {
-  background-color: #FF9800; /* Secondary */
-  color: #FFFFFF;
+  background-color: var(--secondary-orange);
+  color: var(--text-light);
 }
 .btn-secondary:hover {
-  background-color: #f57c00;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background-color: var(--secondary-orange-dark);
+  box-shadow: 0 2px 4px var(--shadow-color-medium);
 }
 
 .btn-accent {
-  background-color: #2196F3; /* Accent */
-  color: #FFFFFF;
+  background-color: var(--accent-blue-solid);
+  color: var(--text-light);
 }
 .btn-accent:hover {
-  background-color: #1e88e5;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background-color: var(--accent-blue-dark);
+  box-shadow: 0 2px 4px var(--shadow-color-medium);
 }
 
 .btn-danger {
-  background-color: #F44336; /* Red */
-  color: #FFFFFF;
+  background-color: var(--danger-red);
+  color: var(--text-light);
 }
 .btn-danger:hover {
-  background-color: #e53935;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background-color: var(--danger-red-dark);
+  box-shadow: 0 2px 4px var(--shadow-color-medium);
 }
 
 .btn-sm {
@@ -303,28 +339,28 @@ header h1 .material-icons {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  box-shadow: var(--shadow-elevation-1);
 }
 
 .styled-table th,
 .styled-table td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--bg-form-border);
 }
 
 .styled-table thead th {
-  background-color: #4CAF50; /* Primary */
-  color: #FFFFFF;
+  background: linear-gradient(135deg, var(--primary-blue-start), var(--primary-blue-end));
+  color: var(--text-light);
   font-weight: bold;
 }
 
 .styled-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: var(--bg-table-even-row);
 }
 
 .styled-table tbody tr:hover {
-  background-color: #f1f1f1;
+  background-color: var(--bg-table-hover-row);
 }
 
 .styled-table .action-buttons button {
@@ -332,12 +368,12 @@ header h1 .material-icons {
 }
 
 .text-income {
-  color: #4CAF50; /* Green */
+  color: var(--primary-blue-solid);
   font-weight: bold;
 }
 
 .text-expense {
-  color: #F44336; /* Red */
+  color: var(--danger-red);
   font-weight: bold;
 }
 
@@ -349,16 +385,16 @@ header h1 .material-icons {
 }
 
 .goal-card {
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
+  background-color: var(--bg-content);
+  border: 1px solid var(--bg-progress-bar-track); /* Using progress bar track color for border */
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); /* Lighter shadow for goal cards */
 }
 
 .goal-card h3 {
   margin-top: 0;
-  color: #2196F3; /* Accent */
+  color: var(--accent-blue-solid);
   display: flex;
   align-items: center;
 }
@@ -368,11 +404,11 @@ header h1 .material-icons {
 
 .goal-card p {
   margin: 8px 0;
-  color: #555;
+  color: var(--text-medium);
 }
 
 .progress-bar-container {
-  background-color: #e0e0e0;
+  background-color: var(--bg-progress-bar-track);
   border-radius: 4px;
   height: 20px;
   margin-top: 10px;
@@ -380,13 +416,13 @@ header h1 .material-icons {
 }
 
 .progress-bar {
-  background-color: #FF9800; /* Secondary */
+  background-color: var(--secondary-orange);
   height: 100%;
   width: 0%; /* Set by JS */
   border-radius: 4px;
   transition: width 0.5s ease-in-out;
   text-align: center;
-  color: white;
+  color: var(--text-dark); /* Changed for better contrast */
   font-size: 0.8rem;
   line-height: 20px;
 }
@@ -406,17 +442,17 @@ header h1 .material-icons {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--bg-modal-overlay);
 }
 
 .modal-content {
-  background-color: #FFFFFF;
+  background-color: var(--bg-content);
   margin: 10% auto;
   padding: 25px;
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px var(--shadow-color-dark);
   position: relative;
 }
 
@@ -424,27 +460,29 @@ header h1 .material-icons {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--bg-form-border);
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
 .modal-header h2 {
     margin: 0;
-    color: #4CAF50;
+    color: var(--primary-blue-solid);
 }
 
-.close-button {
-  color: #aaa;
+/* Corrected to match HTML class 'close-modal-btn' */
+.close-modal-btn {
+  color: #aaa; /* Keeping specific color for close X */
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
 }
 
-.close-button:hover,
-.close-button:focus {
-  color: #333;
+.close-modal-btn:hover,
+.close-modal-btn:focus {
+  color: var(--text-dark);
   text-decoration: none;
+  outline: none;
 }
 
 #edit-modal-fields .form-group {
@@ -491,8 +529,8 @@ header h1 .material-icons {
 
 /* Footer */
 footer {
-  background-color: #333333;
-  color: #F5F5F5;
+  background-color: var(--text-dark);
+  color: var(--bg-main);
   text-align: center;
   padding: 1.5rem 0;
   margin-top: 30px;
@@ -510,19 +548,16 @@ footer {
     align-items: flex-start;
   }
 
-  #main-nav ul {
+  #main-nav {
     flex-direction: column;
     width: 100%;
     margin-top: 10px;
+    gap: 5px; /* Spacing for vertical nav items */
   }
 
-  #main-nav li {
-    margin-left: 0;
-    margin-bottom: 5px;
-    width: 100%;
-  }
   #main-nav a {
     justify-content: center;
+    width: 100%; /* Make nav links full width */
   }
 
   #dashboard-summary {
@@ -543,8 +578,12 @@ footer {
   }
   .styled-table tr {
     margin-bottom: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--bg-form-border);
     border-radius: 4px;
+    background-color: var(--bg-content); /* Ensure cards have background */
+  }
+  .styled-table tbody tr:nth-child(even) {
+    background-color: var(--bg-content); /* Override alternating color for card view */
   }
   .styled-table td {
     text-align: right;
@@ -560,7 +599,7 @@ footer {
     padding-right: 10px;
     font-weight: bold;
     text-align: left;
-    color: #4CAF50;
+    color: var(--primary-blue-solid);
   }
   .styled-table td:last-child {
     border-bottom: 0; /* For card-like appearance */
@@ -588,5 +627,11 @@ footer {
   .btn {
     padding: 10px 15px;
     font-size: 0.9rem;
+  }
+  .view-section h2 {
+    font-size: 1.3rem; /* Adjust section header size */
+  }
+  .view-section h2 .material-icons {
+    font-size: 1.5em;
   }
 }
